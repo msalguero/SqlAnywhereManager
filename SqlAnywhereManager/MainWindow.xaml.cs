@@ -34,11 +34,14 @@ namespace SqlAnywhereManager
             DataGrid.AutoGenerateColumns = false;
             ResultsDataGrid.AutoGenerateColumns = false;
 
-            var treeviewitem = new DatabaseTreeView();
+            var treeviewitem = new DatabaseTreeView(0,"Banco");
+            var treeviewitem2 = new DatabaseTreeView(1,"Escuela");
+            
             ObjectTreeView.Items.Add(treeviewitem);
+            ObjectTreeView.Items.Add(treeviewitem2);
         }
 
-        private void NewConnection_Click(object sender, RoutedEventArgs e)
+        public void NewConnection_Click(object sender, RoutedEventArgs e)
         {
             if (ConnectionManager != null)
             {
@@ -54,7 +57,7 @@ namespace SqlAnywhereManager
         {
             ((NewConnection)sender).Close();
             ConnectionManager = newConnectionManager;
-            var item = ObjectTreeView.Items.GetItemAt(0) as TreeViewItem;
+            var item = ObjectTreeView.Items.GetItemAt(1) as DatabaseTreeView;
             item.ExpandSubtree();
             Image img = FindResource("connect") as Image;
             if (img != null) DatabaseIcon.Source = img.Source;
@@ -74,7 +77,7 @@ namespace SqlAnywhereManager
             DataGrid.Items.Refresh();
         }
 
-        private void OnItemMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        public void OnItemMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ClearDatagrid();
             var objectName = getSenderName((TreeViewItem) sender);
@@ -104,7 +107,7 @@ namespace SqlAnywhereManager
             return "error";
         }
 
-        private void OnDatabaseMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        public void OnDatabaseMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (ConnectionManager != null)
                 return;
@@ -112,14 +115,14 @@ namespace SqlAnywhereManager
             e.Handled = true;
         }
 
-        private void OnDatabaseExpanded(object sender, RoutedEventArgs e)
+        public void OnDatabaseExpanded(object sender, RoutedEventArgs e)
         {
             var item = sender as TreeViewItem;
             if (ConnectionManager == null)
                 item.IsExpanded = false;
         }
 
-        private void EndConnection_Click(object sender, RoutedEventArgs e)
+        public void EndConnection_Click(object sender, RoutedEventArgs e)
         {
             if (ConnectionManager == null)
             {

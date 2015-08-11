@@ -6,11 +6,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
-    <TreeViewItem>
+    <TreeViewItem Name="DatabaseTreeViewItem" Expanded="OnDatabaseExpanded">
         <TreeViewItem.ContextMenu>
             <ContextMenu>
                 <MenuItem Header="Connect" Click="NewConnection_Click"/>
-                <MenuItem Tag="prueba" Header="Disconnect" Click="EndConnection_Click"/>
+                <MenuItem Name="DbMenuItem" Tag="prueba" Header="Disconnect" Click="EndConnection_Click"/>
             </ContextMenu>
         </TreeViewItem.ContextMenu>
         <TreeViewItem.ItemContainerStyle>
@@ -21,7 +21,7 @@
         <TreeViewItem.Header>
             <StackPanel Orientation="Horizontal">
                 <Image Name="DatabaseIcon" Source="Icons/database.png"></Image>
-                <Label Content="Prueba"></Label>
+                <Label Name="TreeDatabaseName" Content="Prueba"></Label>
             </StackPanel>
         </TreeViewItem.Header>
 
