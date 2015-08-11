@@ -29,3 +29,6 @@ C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnyw
 C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhereManager\obj\Debug\CreateDabaseWindows\CreateDatabaseFinish.g.cs
 C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhereManager\obj\Debug\DatabaseTreeView.baml
 C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhereManager\obj\Debug\DatabaseTreeView.g.cs
+C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhereManager\bin\Debug\Newtonsoft.Json.dll
+C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhereManager\bin\Debug\Newtonsoft.Json.xml
+C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhereManager\obj\Debug\GeneratedInternalTypeHelper.g.cs

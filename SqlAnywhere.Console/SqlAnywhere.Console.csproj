@@ -48,6 +48,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SqlAnywhereManager\SqlAnywhereManager.csproj">
+      <Project>{88AB24BF-2C4C-4BC1-BF38-F717C2463395}</Project>
+      <Name>SqlAnywhereManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SqlAnywhere\SqlAnywhere.csproj">
       <Project>{42858F82-0A91-4F7E-8D93-92A49917DEF1}</Project>
       <Name>SqlAnywhere</Name>

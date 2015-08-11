@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Odbc;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -73,6 +74,11 @@ namespace SqlAnywhere
         public SqlAnywhereTable ExecuteSqlQuery(string command)
         {
             return _currentDatabase.ExecuteQueryCommand(command);
+        }
+
+        public bool IsConnected(string databaseName)
+        {
+            return Databases.Any(sqlAnywhereDatabase => sqlAnywhereDatabase.Name == databaseName);
         }
     }
 }

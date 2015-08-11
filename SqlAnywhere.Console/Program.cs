@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SqlAnywhere;
+using SqlAnywhereManager;
 
 namespace SqlAnywhere.Console
 {
@@ -18,11 +19,8 @@ namespace SqlAnywhere.Console
             serverManager.DisconnectDatabase("prueba");
             System.Console.Read();*/
 
-            var table = "BANCOS";
-            var colummns = new string[] {"ID_BANCO", "NOMBRE_BANCO"};
-            var filters = new string[] { "ID_BANCO = 1", "NOMBRE_BANCO = FICOHSA" };
-
-            var command = SqlCommandBuilder.CreateSqlQuery(table, colummns, filters);
+            SavedDatabases saved = new SavedDatabases();
+            saved.RemoveDatabase("Base3");
         }
     }
 }

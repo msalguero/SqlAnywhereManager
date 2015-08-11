@@ -26,19 +26,25 @@ namespace SqlAnywhereManager
     public partial class MainWindow : Window
     {
         public SqlAnywhereConnectionManager ConnectionManager;
+        private SavedDatabases _savedDatabases;
+        public int CurrentDatabaseIndex;
         
         public MainWindow()
         {
+            _savedDatabases = new SavedDatabases();
+            CurrentDatabaseIndex = -1;
             ConnectionManager = null;
             InitializeComponent();
             DataGrid.AutoGenerateColumns = false;
             ResultsDataGrid.AutoGenerateColumns = false;
 
-            var treeviewitem = new DatabaseTreeView(0,"Banco");
-            var treeviewitem2 = new DatabaseTreeView(1,"Escuela");
+            int i = 0;
+            foreach (var savedDatabase in _savedDatabases.GetSavedDatabases())
+            {
+                var treeviewitem = new DatabaseTreeView(i++, savedDatabase);
+                ObjectTreeView.Items.Add(treeviewitem);
+            }
             
-            ObjectTreeView.Items.Add(treeviewitem);
-            ObjectTreeView.Items.Add(treeviewitem2);
         }
 
         public void NewConnection_Click(object sender, RoutedEventArgs e)
@@ -48,7 +54,18 @@ namespace SqlAnywhereManager
                 MessageBox.Show("You are already connected to a database");
                 return;
             }
+            
+            
             NewConnection newConnectionWindow = new NewConnection(ConnectionManager);
+            var treeViewItem = sender as TreeViewItem;
+            if (treeViewItem != null)
+            {
+                var databaseTreeItem = treeViewItem.Header as DatabaseTreeView;
+                if (databaseTreeItem != null)
+                {
+                    newConnectionWindow.DatabaseBox.Text = databaseTreeItem.DataBaseName;
+                }
+            }
             newConnectionWindow.NewConnectionEvent += Connection;
             newConnectionWindow.ShowDialog();
         }
@@ -60,7 +77,7 @@ namespace SqlAnywhereManager
             var item = ObjectTreeView.Items.GetItemAt(1) as DatabaseTreeView;
             item.ExpandSubtree();
             Image img = FindResource("connect") as Image;
-            if (img != null) DatabaseIcon.Source = img.Source;
+            if (img != null) item.DatabaseIcon.Source = img.Source;
         }
 
         public void RefreshTreeView()
@@ -109,7 +126,8 @@ namespace SqlAnywhereManager
 
         public void OnDatabaseMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (ConnectionManager != null)
+            var databaseTreeItem = ((TreeViewItem)sender).Header as DatabaseTreeView;
+            if (ConnectionManager != null && ConnectionManager.IsConnected(databaseTreeItem.DataBaseName))
                 return;
             NewConnection_Click(sender, e);
             e.Handled = true;
@@ -133,10 +151,10 @@ namespace SqlAnywhereManager
             var dataBaseName = ((MenuItem) sender).Tag.ToString();
             ConnectionManager.DisconnectDatabase(dataBaseName);
             ConnectionManager = null;
-            var item = ObjectTreeView.Items.GetItemAt(0) as TreeViewItem;
-            item.IsExpanded = false;
+            var item = ObjectTreeView.Items.GetItemAt(1) as DatabaseTreeView;
+            item.Collapse();
             Image img = FindResource("disconnect") as Image;
-            if (img != null) DatabaseIcon.Source = img.Source;
+            if (img != null) item.DatabaseIcon.Source = img.Source;
             ClearDatagrid();
         }
 

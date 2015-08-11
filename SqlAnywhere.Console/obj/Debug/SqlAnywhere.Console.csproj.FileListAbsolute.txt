@@ -6,3 +6,7 @@ C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnyw
 C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhere.Console\obj\Debug\SqlAnywhere.Console.csprojResolveAssemblyReference.cache
 C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhere.Console\obj\Debug\SqlAnywhere.Console.exe
 C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhere.Console\obj\Debug\SqlAnywhere.Console.pdb
+C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhere.Console\bin\Debug\SqlAnywhereManager.exe
+C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhere.Console\bin\Debug\Newtonsoft.Json.dll
+C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhere.Console\bin\Debug\SqlAnywhereManager.pdb
+C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhere.Console\bin\Debug\Newtonsoft.Json.xml

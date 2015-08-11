@@ -65,5 +65,10 @@ namespace SqlAnywhereManager
         {
             DatabaseTreeViewItem.ExpandSubtree();
         }
+
+        public void Collapse()
+        {
+            DatabaseTreeViewItem.IsExpanded = false;
+        }
     }
 }
