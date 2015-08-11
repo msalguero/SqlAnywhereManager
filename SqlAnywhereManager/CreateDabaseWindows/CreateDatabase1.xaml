@@ -1,0 +1,22 @@
+﻿<Window x:Class="SqlAnywhereManager.CreateDabaseWindows.CreateDatabase1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Database Creation Wizard" Height="530" Width="740" WindowStartupLocation="CenterScreen" >
+    <StackPanel>
+        <Grid Height="150">
+            <Label FontSize="30px" Margin ="0,40,0,0">Welcome to the Database Creation Wizard</Label>
+        </Grid>
+        <Grid Background="Gainsboro" Height="344">
+            <Label FontSize="15">This wizard will guide you trough the steps of creating a database from scratch.</Label>
+            <Label Margin="0,40,0,0" FontSize="15">
+                <TextBlock>A database is stored in an operating system file. In order to create a database you<LineBreak/>
+                    must be connected to a sever on the computer you want to store the database file. If <LineBreak></LineBreak>
+                you are not running on a server the wizard can start a server for you.</TextBlock></Label>
+            <Button IsEnabled="False" Content="Back" Width="60" Height="25" Margin="513,306,159,12"/>
+            <Button Content="Next" Click="Next" Width="60" Height="25" Margin="578,306,94,12"/>
+            <Button IsEnabled="False" Content="Finish" Width="60" Height="25" Margin="643,306,29,12"/>
+            <Separator HorizontalAlignment="Left" Height="80" Margin="10,257,0,0" VerticalAlignment="Top" Width="722"/>
+        </Grid>
+
+    </StackPanel>
+</Window>

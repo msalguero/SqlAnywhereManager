@@ -1,0 +1,5 @@
+C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhere\bin\Debug\SqlAnywhere.dll
+C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhere\bin\Debug\SqlAnywhere.pdb
+C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhere\obj\Debug\SqlAnywhere.dll
+C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhere\obj\Debug\SqlAnywhere.pdb
+C:\Users\manuel\documents\visual studio 2013\Projects\SqlAnywhereManager\SqlAnywhere\obj\Debug\SqlAnywhere.csprojResolveAssemblyReference.cache

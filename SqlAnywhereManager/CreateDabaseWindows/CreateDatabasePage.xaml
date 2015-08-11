@@ -1,0 +1,23 @@
+﻿<Window x:Class="SqlAnywhereManager.CreateDabaseWindows.CreateDatabasePage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Database Creation Wizard" Height="530" Width="740" WindowStartupLocation="CenterScreen" >
+    <StackPanel>
+        <Grid Height="150">
+            <Label FontSize="30px" Margin ="0,40,0,0">Database Page Size</Label>
+        </Grid>
+        <Grid Name="container" Background="Gainsboro" Height="344">
+            <Label Content="Which page size do you want the database to use?" HorizontalAlignment="Left" Margin="85,29,0,0" VerticalAlignment="Top"/>
+            <RadioButton GroupName="RadioGroup"  Content="2048" Margin="116,96,-116,218"/>
+            <RadioButton GroupName="RadioGroup" Content="4096" Margin="116,131,-116,187"/>
+            <RadioButton GroupName="RadioGroup" Content="8192" Margin="116,62,-116,253"/>
+            <RadioButton GroupName="RadioGroup" Content="16384" Margin="116,162,-116,157"/>
+            <RadioButton GroupName="RadioGroup" Content="32768" Margin="116,192,-116,130"/>
+            <Button Click="Back" Content="Back" Width="60" Height="25" Margin="513,306,159,12"/>
+            <Button Click="Next" Content="Next" Width="60" Height="25" Margin="578,306,94,12"/>
+            <Button Content="Finish" Width="60" Height="25" Margin="643,306,29,12"/>
+            <Separator HorizontalAlignment="Left" Height="80" Margin="10,257,0,0" VerticalAlignment="Top" Width="722"/>
+            <CheckBox Content="Preallocate the following amount of space for this database" HorizontalAlignment="Left" Margin="116,237,0,0" VerticalAlignment="Top"/>
+        </Grid>
+    </StackPanel>
+</Window>

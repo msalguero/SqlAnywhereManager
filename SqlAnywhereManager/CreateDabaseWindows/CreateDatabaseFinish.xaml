@@ -1,0 +1,21 @@
+﻿<Window x:Class="SqlAnywhereManager.CreateDabaseWindows.CreateDatabaseFinish"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Database Creation Wizard" Height="530" Width="740" WindowStartupLocation="CenterScreen" >
+    <StackPanel>
+        <Grid Height="150">
+            <Label FontSize="30px" Margin ="0,40,0,0">Database Creation Summary</Label>
+        </Grid>
+        <Grid Background="Gainsboro" Height="344">
+            <Label Content="Generated DDL" HorizontalAlignment="Left" Margin="85,10,0,0" VerticalAlignment="Top"/>
+
+            <Label Content="The dbinit corresponding command" HorizontalAlignment="Left" Margin="85,147,0,0" VerticalAlignment="Top"/>
+            <Button Click="Back" Content="Back" Width="60" Height="25" Margin="513,306,159,12"/>
+            <Button IsEnabled="False" Content="Next" Width="60" Height="25" Margin="578,306,94,12"/>
+            <Button Click="Finish" Content="Finish" Width="60" Height="25" Margin="643,306,29,12"/>
+            <Separator HorizontalAlignment="Left" Height="80" Margin="10,257,0,0" VerticalAlignment="Top" Width="722"/>
+            <TextBox IsEnabled="False" Name="DdlTextBox" TextWrapping="Wrap" Text="" Margin="85,41,194,215"/>
+            <TextBox IsEnabled="False" Name="CommandTextBox" TextWrapping="Wrap" Text="" Margin="85,178,194,78"/>
+        </Grid>
+    </StackPanel>
+</Window>
