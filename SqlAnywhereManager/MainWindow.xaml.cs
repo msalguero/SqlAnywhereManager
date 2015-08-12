@@ -33,7 +33,7 @@ namespace SqlAnywhereManager
         {
             _savedDatabases = new SavedDatabases();
             CurrentDatabaseIndex = -1;
-            ConnectionManager = null;
+            ConnectionManager = new SqlAnywhereConnectionManager();
             InitializeComponent();
             DataGrid.AutoGenerateColumns = false;
             ResultsDataGrid.AutoGenerateColumns = false;
@@ -49,7 +49,11 @@ namespace SqlAnywhereManager
 
         public void NewConnection_Click(object sender, RoutedEventArgs e)
         {
-            if (ConnectionManager != null)
+            var treeViewItem = sender as TreeViewItem;
+            DatabaseTreeView databaseTreeItem = null;
+            if(treeViewItem != null)
+                databaseTreeItem = treeViewItem.Header as DatabaseTreeView;
+            if (databaseTreeItem != null && (ConnectionManager != null && ConnectionManager.IsConnected(databaseTreeItem.DataBaseName)))
             {
                 MessageBox.Show("You are already connected to a database");
                 return;
@@ -57,27 +61,41 @@ namespace SqlAnywhereManager
             
             
             NewConnection newConnectionWindow = new NewConnection(ConnectionManager);
-            var treeViewItem = sender as TreeViewItem;
-            if (treeViewItem != null)
+            
+     
+            if (databaseTreeItem != null)
             {
-                var databaseTreeItem = treeViewItem.Header as DatabaseTreeView;
-                if (databaseTreeItem != null)
-                {
-                    newConnectionWindow.DatabaseBox.Text = databaseTreeItem.DataBaseName;
-                }
+                newConnectionWindow.DatabaseBox.Text = databaseTreeItem.DataBaseName;
             }
+            
             newConnectionWindow.NewConnectionEvent += Connection;
             newConnectionWindow.ShowDialog();
         }
 
         public void Connection(object sender, EventArgs e, SqlAnywhereConnectionManager newConnectionManager)
         {
-            ((NewConnection)sender).Close();
+            var senderWindow = ((NewConnection) sender);
+            if(senderWindow.SaveCheckBox.IsChecked != null && (bool)senderWindow.SaveCheckBox.IsChecked)
+                _savedDatabases.SaveDatabase(senderWindow.DatabaseBox.Text);
+            senderWindow.Close();
             ConnectionManager = newConnectionManager;
-            var item = ObjectTreeView.Items.GetItemAt(1) as DatabaseTreeView;
-            item.ExpandSubtree();
+            DatabaseTreeView treeViewItem = null;
+            foreach (DatabaseTreeView databaseItem in ObjectTreeView.Items)
+            {
+                if (databaseItem.DataBaseName == senderWindow.DatabaseBox.Text)
+                {
+                    treeViewItem = databaseItem;
+                    databaseItem.ExpandSubtree();
+                }
+            }
+            if (treeViewItem == null)
+            {
+                treeViewItem = new DatabaseTreeView(ObjectTreeView.Items.Count, senderWindow.DatabaseBox.Text);
+                ObjectTreeView.Items.Add(treeViewItem);
+            }
+           
             Image img = FindResource("connect") as Image;
-            if (img != null) item.DatabaseIcon.Source = img.Source;
+            if (img != null) treeViewItem.DatabaseIcon.Source = img.Source;
         }
 
         public void RefreshTreeView()
@@ -99,7 +117,7 @@ namespace SqlAnywhereManager
             ClearDatagrid();
             var objectName = getSenderName((TreeViewItem) sender);
             var objectTag = ((TreeViewItem) sender).Tag;
-            var table = ConnectionManager.GetDataFromTable(objectTag.ToString());
+            var table = ConnectionManager.ExecuteSqlQuery(objectTag.ToString());
 
 
             for (int i = 0; i < table.Columns.Count; i++)
@@ -117,10 +135,16 @@ namespace SqlAnywhereManager
 
         private string getSenderName(TreeViewItem sender)
         {
-            StackPanel panel = (StackPanel) sender.Header;
-            var lastOrDefault = (from object child in panel.Children select child.ToString()).LastOrDefault();
-            if (lastOrDefault != null)
-                return lastOrDefault.Split(':')[1];
+            StackPanel panel = sender.Header as StackPanel;
+            if (panel != null)
+            {
+                var lastOrDefault = (from object child in panel.Children select child.ToString()).LastOrDefault();
+                if (lastOrDefault != null)
+                    return lastOrDefault.Split(':')[1];
+            }
+            DatabaseTreeView item = sender.Header as DatabaseTreeView;
+
+            if (item != null) return item.DataBaseName;
             return "error";
         }
 
@@ -135,26 +159,38 @@ namespace SqlAnywhereManager
 
         public void OnDatabaseExpanded(object sender, RoutedEventArgs e)
         {
-            var item = sender as TreeViewItem;
-            if (ConnectionManager == null)
-                item.IsExpanded = false;
+            //var item = sender as TreeViewItem;
+            //var databaseName = getSenderName(item);
+            //if (!ConnectionManager.IsConnected(databaseName))
+             //   if (item != null) item.IsExpanded = false;
         }
 
         public void EndConnection_Click(object sender, RoutedEventArgs e)
         {
-            if (ConnectionManager == null)
+            var dataBaseName = ((MenuItem)sender).Tag.ToString();
+            if (ConnectionManager == null && !ConnectionManager.IsConnected(dataBaseName))
             {
-                MessageBox.Show("You are not connected to a database");
+                MessageBox.Show("You are not connected to the database");
                 return;
             }
-    
-            var dataBaseName = ((MenuItem) sender).Tag.ToString();
+
+            DatabaseTreeView treeViewItem = null;
+            foreach (DatabaseTreeView databaseItem in ObjectTreeView.Items)
+            {
+                if (databaseItem.DataBaseName == dataBaseName)
+                {
+                    treeViewItem = databaseItem;
+                    databaseItem.ExpandSubtree();
+                }
+            }
+
             ConnectionManager.DisconnectDatabase(dataBaseName);
-            ConnectionManager = null;
-            var item = ObjectTreeView.Items.GetItemAt(1) as DatabaseTreeView;
-            item.Collapse();
-            Image img = FindResource("disconnect") as Image;
-            if (img != null) item.DatabaseIcon.Source = img.Source;
+            if (treeViewItem != null)
+            {
+                treeViewItem.Collapse();
+                Image img = FindResource("disconnect") as Image;
+                if (img != null) treeViewItem.DatabaseIcon.Source = img.Source;
+            }
             ClearDatagrid();
         }
 

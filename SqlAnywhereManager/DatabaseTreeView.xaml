@@ -27,7 +27,7 @@
 
         <TreeViewItem>
             <TreeViewItem.Tag>
-                SYSTAB
+                Select table_name as Name, USER_NAME(creator) as Owner, table_type_str as Type from systab where creator = USER_ID() AND table_type_str !='VIEW';
             </TreeViewItem.Tag>
             <TreeViewItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -38,7 +38,7 @@
         </TreeViewItem>
         <TreeViewItem>
             <TreeViewItem.Tag>
-                SYSVIEW
+                Select table_name as Name, USER_NAME(creator) as Owner, table_type_str as Type from systab where creator = USER_ID() AND table_type_str = 'VIEW';
             </TreeViewItem.Tag>
             <TreeViewItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -49,7 +49,20 @@
         </TreeViewItem>
         <TreeViewItem>
             <TreeViewItem.Tag>
-                SYSIDX
+                select USER_NAME(tab.creator) as Owner,idx.index_name as 'Index Name',
+    tab.table_name as 'Table Name',
+    case idx.index_category
+    when 1 then 'Primary Key'
+    when 2 then 'Foreign Key'
+    when 3 then(
+      if idx."unique" = 4 then 'Non-unique'
+      else if idx."unique" = 2 then 'UNIQUE constraint'
+        else 'Unique'
+        endif
+      endif) when 4 then 'Text Index' end as Type
+    from SYS.SYSTAB as tab
+      join SYS.SYSIDX as idx on(idx.table_id = tab.table_id)
+        Where tab.creator =USER_ID() ;
             </TreeViewItem.Tag>
             <TreeViewItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -60,7 +73,11 @@
         </TreeViewItem>
         <TreeViewItem>
             <TreeViewItem.Tag>
-                SYSTRIGGER
+                Select trigger_name as Name, OBJECT_NAME(object_id) as 'Object Name',
+case event when 'A' THEN 'INSERT,DELETE' when 'B' THEN 'INSERT,UPDATE' when 'C' THEN 'UPDATE COLUMNS' when 'D' THEN 'DELETE'
+when 'E' THEN 'DELETE,UPDATE' when 'I' THEN 'INSERT' when 'U' THEN 'UPDATE' when 'M' THEN 'INSERT, DELETE, UPDATE' end as Event,
+case trigger_time when 'A' THEN 'AFTER' when 'B' THEN 'BEFORE' when 'I' THEN 'INSTEAD OF' when 'R' THEN 'RESOLVE' when 'S' THEN 'AFTER' end as 'Time'
+ from SYSTRIGGER
             </TreeViewItem.Tag>
             <TreeViewItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -71,7 +88,7 @@
         </TreeViewItem>
         <TreeViewItem>
             <TreeViewItem.Tag>
-                SYSPROCEDURE
+                select prc.proc_name as Name, USER_NAME(prc.creator) as Owner, prc.remarks as comments from sys.sysprocedure prc where prc.creator = USER_ID()  and prc.source LIKE 'create procedure%';
             </TreeViewItem.Tag>
             <TreeViewItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -82,7 +99,7 @@
         </TreeViewItem>
         <TreeViewItem>
             <TreeViewItem.Tag>
-                SYSPROCEDURE
+                select prc.proc_name as Name, USER_NAME(prc.creator) as Owner, prc.remarks as comments from sys.sysprocedure prc where prc.creator = USER_ID()  and prc.source LIKE 'create function%';
             </TreeViewItem.Tag>
             <TreeViewItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -93,7 +110,9 @@
         </TreeViewItem>
         <TreeViewItem>
             <TreeViewItem.Tag>
-                SYSEVENT
+                select ev.event_name as Name, ev.enabled as Enabled, tp.name as Type, ev.condition as Condition,
+case ev.location when 'C' then 'Consolidated' when 'R' then 'Remote' when 'A' then 'ALL' end as Location
+from sysevent ev join syseventtype tp on ev.event_type_id = tp.event_type_id;
             </TreeViewItem.Tag>
             <TreeViewItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -104,7 +123,7 @@
         </TreeViewItem>
         <TreeViewItem>
             <TreeViewItem.Tag>
-                SYSSEQUENCE
+                SELECT sequence_name as Name, user_id(owner) as Owner, min_value as Minimum, max_value as Maximum, start_with as 'Start', increment_by as Increment, cache as Cached FROM SYSSEQUENCE
             </TreeViewItem.Tag>
             <TreeViewItem.Header>
                 <StackPanel Orientation="Horizontal">
@@ -115,7 +134,9 @@
         </TreeViewItem>
         <TreeViewItem>
             <TreeViewItem.Tag>
-                SYSUSER
+                select us.user_name as Name, us.password_creation_time as 'Password Creation Time',pol.login_policy_name,
+ last_login_time as 'Last Login Time', failed_login_attempts as 'Failed Login Attempts' from SYSUSER us join SYSLOGINPOLICY pol on 
+ us.login_policy_id = pol.login_policy_id Where user_type = 12;
             </TreeViewItem.Tag>
             <TreeViewItem.Header>
                 <StackPanel Orientation="Horizontal">

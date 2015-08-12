@@ -12,21 +12,17 @@ namespace SqlAnywhere
     {
         public List<SqlAnywhereDatabase> Databases;
         private SqlAnywhereDatabase _currentDatabase;
-        public string UserId { get; set; }
-        public string Password { get; set; }
 
-        public SqlAnywhereConnectionManager(string userId, string password)
+        public SqlAnywhereConnectionManager()
         {
             _currentDatabase = null;
-            UserId = userId;
-            Password = password;
             Databases = new List<SqlAnywhereDatabase>();
             
         }
 
-        public bool ConnectToDatabase(string databaseName)
+        public bool ConnectToDatabase(string databaseName, string userId, string password)
         {
-            var database = SqlAnywhereDatabase.GetDatabase(databaseName, UserId, Password);
+            var database = SqlAnywhereDatabase.GetDatabase(databaseName, userId, password);
             if (database != null)
             {
                 Databases.Add(database);
@@ -43,7 +39,12 @@ namespace SqlAnywhere
             {
                 databaseToDisconnect.Disconnect();
                 Databases.Remove(databaseToDisconnect);
-                _currentDatabase = null;
+                if(Databases.Count != 0)
+                    _currentDatabase = Databases.First();
+                else
+                {
+                    _currentDatabase = null;
+                }
                 return true;
             }
             return false;
@@ -79,6 +80,16 @@ namespace SqlAnywhere
         public bool IsConnected(string databaseName)
         {
             return Databases.Any(sqlAnywhereDatabase => sqlAnywhereDatabase.Name == databaseName);
+        }
+
+        public bool IsCurrentDatabase(string dataBaseName)
+        {
+            return _currentDatabase.Name == dataBaseName;
+        }
+
+        public string GetCurrentDatabase()
+        {
+            return _currentDatabase.Name;
         }
     }
 }

@@ -30,6 +30,8 @@ namespace SqlAnywhereManager
 
         public void SaveDatabase(string databaseName)
         {
+            if(IsDataBaseSaved(databaseName))
+                return;
             Databases.Add(databaseName);
             string json = JsonConvert.SerializeObject(Databases.ToArray());
 

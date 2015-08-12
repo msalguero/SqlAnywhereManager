@@ -11,6 +11,8 @@ namespace SqlAnywhere
     {
         private string _connectionString;
         private OdbcConnection _connection;
+        public string UserId { get; set; }
+        public string Password { get; set; }
 
         private SqlAnywhereDatabase()
         {
@@ -22,6 +24,8 @@ namespace SqlAnywhere
         public void SetConnectionString(string dataBase, string userId, string password)
         {
             _connectionString = @"Driver={SQL Anywhere 16};databasename="+dataBase+";enginename=Server;uid="+userId+";pwd="+password;
+            UserId = userId;
+            Password = password;
         }
 
         public void Connect()

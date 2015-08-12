@@ -34,8 +34,8 @@ namespace SqlAnywhereManager
 
         private void Test_Click(object sender, RoutedEventArgs e)
         {
-            var connectionManager = new SqlAnywhereConnectionManager(UserIdBox.Text, PasswordBox.Password);
-            if (connectionManager.ConnectToDatabase(DatabaseBox.Text))
+            var connectionManager = new SqlAnywhereConnectionManager();
+            if (connectionManager.ConnectToDatabase(DatabaseBox.Text, UserIdBox.Text, PasswordBox.Password))
             {
                 connectionManager.DisconnectDatabase(DatabaseBox.Text);
                 MessageLabel.Content = "Test Succesfull";
@@ -49,18 +49,17 @@ namespace SqlAnywhereManager
 
         private void Connect_Click(object sender, RoutedEventArgs e)
         {
-            ConnectionManager = new SqlAnywhereConnectionManager("", "");
-            ConnectionManager.UserId = UserIdBox.Text;
-            ConnectionManager.Password = PasswordBox.Password;
-            if (ConnectionManager.ConnectToDatabase(DatabaseBox.Text))
+            
+            if (ConnectionManager.ConnectToDatabase(DatabaseBox.Text,UserIdBox.Text,PasswordBox.Password))
             {
+                
                 MessageLabel.Content = "Test Succesfull";
                 if (NewConnectionEvent != null) NewConnectionEvent(this, e, ConnectionManager);
             }
             else
             {
                 MessageLabel.Content = "Connection Failed";
-                ConnectionManager.UserId = "";
+               
             }
         }
     }
